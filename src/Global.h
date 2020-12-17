@@ -8,32 +8,19 @@ AsyncWebServer server(80);
 const char *ssid = "TP-LINK";
 const char *password = "05261105PIKOS";
 
-String readRaw()
-{
-    return String(pressureSensor.raw());
-}
-String readHeight()
-{
-    return String(pressureSensor.height());
-}
-String readVolume()
-{
-    return String(pressureSensor.volume());
-}
-
 void initWebServer()
 {
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
         request->send(SPIFFS, "/index.html");
     });
     server.on("/pressure", HTTP_GET, [](AsyncWebServerRequest *request) {
-        request->send_P(200, "text/plain", readRaw().c_str());
+        request->send_P(200, "text/plain", String(pressureSensor.raw()).c_str());
     });
     server.on("/height", HTTP_GET, [](AsyncWebServerRequest *request) {
-        request->send_P(200, "text/plain", readHeight().c_str());
+        request->send_P(200, "text/plain", String(pressureSensor.height()).c_str());
     });
     server.on("/volume", HTTP_GET, [](AsyncWebServerRequest *request) {
-        request->send_P(200, "text/plain", readVolume().c_str());
+        request->send_P(200, "text/plain", String(pressureSensor.volume()).c_str());
     });
     // Start server
     server.begin();
