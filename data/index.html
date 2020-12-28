@@ -17,6 +17,8 @@
 </head>
 <body>
   <h2>ESP Weather Station</h2>
+  <button onclick="calibrateMin()">CalibrateMin</button>
+  <button onclick="calibrateMax()">CalibrateMax</button>
   <div id="chart-pressure" class="container"></div>
   <div id="chart-height" class="container"></div>
   <div id="chart-volume" class="container"></div>
@@ -139,6 +141,17 @@ setInterval(function ( ) {
   };
   xhttp.open("GET", "/volume", true);
   xhttp.send();
-}, 1000 ) ;
+}, 1000 );
+
+function calibrateMin(){
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "/calibrateMin", true);
+  xhttp.send();
+}
+function calibrateMax(){
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "/calibrateMax", true);
+  xhttp.send();
+}
 </script>
 </html>

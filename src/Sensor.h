@@ -5,7 +5,8 @@ class Sensor
 private:
     HX711 pressure;
     long valueEmpty;
-    double calibrated_min, calibrated_max;
+    long reading;
+    long calibrated_min, calibrated_max;
     //define calibration points here
 
     double mapf(double x, double in_min, double in_max, double out_min, double out_max)
@@ -19,10 +20,27 @@ public:
         pressure.begin(PS_DOUT_PIN, PS_SCK_PIN);
     }
 
-    bool calibrate()
+    long calibrateMin()
     {
-        //some magic here
-        return false;
+        calibrated_min = 0;
+        for (int i = 0; i < 100; i++)
+        {
+            calibrated_min += pressure.read();
+        }
+        calibrated_min = calibrated_min / 100;
+        Serial.println("CalibratedMin:" + calibrated_min);
+        return calibrated_min;
+    }
+    long calibrateMax()
+    {
+        calibrated_max = 0;
+        for (int i = 0; i < 100; i++)
+        {
+            calibrated_max += pressure.read();
+        }
+        calibrated_max = calibrated_max / 100;
+        Serial.println("CalibratedMax:" + calibrated_max);
+        return calibrated_max;
     }
     long raw()
     {
@@ -32,10 +50,10 @@ public:
     long height()
     {
         //do some magic here(mapped value)
-        return mapf(raw(), 430, 1500, 0, 180);
+        return mapf(raw(), calibrated_min, calibrated_max, 0, 150);
     }
-    long volume()
+    double volume()
     {
-        return (height() * PI * 3600) / 1000000;
+        return (height() * PI * 3600) / 1000000.0;
     }
 };

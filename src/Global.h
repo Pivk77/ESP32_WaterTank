@@ -22,6 +22,14 @@ void initWebServer()
     server.on("/volume", HTTP_GET, [](AsyncWebServerRequest *request) {
         request->send_P(200, "text/plain", String(pressureSensor.volume()).c_str());
     });
+    server.on("/calibrateMin", HTTP_GET, [](AsyncWebServerRequest *request) {
+        Serial.println("CalibrateMin request: ");
+        request->send(200);
+    });
+    server.on("/calibrateMax", HTTP_GET, [](AsyncWebServerRequest *request) {
+        Serial.println("CalibrateMax request: ");
+        request->send(200);
+    });
     // Start server
     server.begin();
 }
