@@ -5,8 +5,8 @@
 AsyncWebServer server(80);
 
 // Replace with your network credentials
-const char *ssid = "TP-LINK";
-const char *password = "05261105PIKOS";
+const char *ssid = "SSID_here";
+const char *password = "PASSWORD_here";
 
 void initWebServer()
 {
